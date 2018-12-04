@@ -136,6 +136,9 @@ defmodule LoggerLogstashBackend do
       {:error, :closed} ->
         log_error(:closed, state)
         %{state | socket: nil}
+
+      {:error, reason} ->
+        log_error(reason, state)
     end
   end
 
