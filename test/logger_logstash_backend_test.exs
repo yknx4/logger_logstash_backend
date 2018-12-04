@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ################################################################################
-require IEx
 defmodule LoggerLogstashBackendTest do
   use ExUnit.Case, async: false
   require Logger
@@ -55,7 +54,7 @@ defmodule LoggerLogstashBackendTest do
       "module" => "Elixir.LoggerLogstashBackendTest",
       "pid" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 46,
+      "line" => 45,
       "key1" => "field1"
     }
 
@@ -65,7 +64,6 @@ defmodule LoggerLogstashBackendTest do
     ts = DateTime.to_unix(dt)
 
     now = DateTime.utc_now() |> DateTime.to_unix()
-
     assert now > ts
   end
 
@@ -83,7 +81,7 @@ defmodule LoggerLogstashBackendTest do
       "pid" => inspect(self()),
       "pid_key" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 73
+      "line" => 71
     }
 
     assert data["line"] == expected["line"]

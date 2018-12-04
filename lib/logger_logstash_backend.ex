@@ -84,7 +84,7 @@ defmodule LoggerLogstashBackend do
         hour,
         minute,
         second,
-        microseconds * 1000
+        {microseconds, 3}
       )
 
     {:ok, datetime} = DateTime.from_naive(ts, timezone)
