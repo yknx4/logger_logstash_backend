@@ -14,6 +14,7 @@
 # limitations under the License.
 ################################################################################
 defmodule LoggerLogstashBackend do
+  @moduledoc false
   @behaviour :gen_event
 
   require Logger

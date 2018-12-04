@@ -22,7 +22,8 @@ defmodule LoggerLogstashBackend.Mixfile do
     [
       {:earmark, "~> 1.0.3", only: :dev},
       {:ex_doc, "~> 0.14.5", only: :dev},
-      {:jason, "~> 1.0", only: [:test]}
+      {:jason, "~> 1.0", only: [:dev, :test]},
+      {:credo, "~> 0.10.0", only: [:dev, :test], runtime: false}
     ]
   end
 

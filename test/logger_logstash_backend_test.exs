@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ################################################################################
+require IEx
 defmodule LoggerLogstashBackendTest do
   use ExUnit.Case, async: false
   require Logger
@@ -24,7 +25,7 @@ defmodule LoggerLogstashBackendTest do
     Logger.configure_backend(
       @backend,
       host: "127.0.0.1",
-      port: 10001,
+      port: 10_001,
       level: :info,
       type: "some_app",
       metadata: [
@@ -32,7 +33,7 @@ defmodule LoggerLogstashBackendTest do
       ]
     )
 
-    {:ok, socket} = :gen_udp.open(10001, [:binary, {:active, true}])
+    {:ok, socket} = :gen_udp.open(10_001, [:binary, {:active, true}])
 
     on_exit(fn ->
       :ok = :gen_udp.close(socket)
@@ -54,7 +55,7 @@ defmodule LoggerLogstashBackendTest do
       "module" => "Elixir.LoggerLogstashBackendTest",
       "pid" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 45,
+      "line" => 46,
       "key1" => "field1"
     }
 
@@ -64,7 +65,8 @@ defmodule LoggerLogstashBackendTest do
     ts = DateTime.to_unix(dt)
 
     now = DateTime.utc_now() |> DateTime.to_unix()
-    assert now - ts < 1000
+
+    assert now > ts
   end
 
   test "can log pids" do
@@ -81,7 +83,7 @@ defmodule LoggerLogstashBackendTest do
       "pid" => inspect(self()),
       "pid_key" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 71
+      "line" => 73
     }
 
     assert data["line"] == expected["line"]
@@ -90,7 +92,7 @@ defmodule LoggerLogstashBackendTest do
     ts = DateTime.to_unix(dt)
 
     now = DateTime.utc_now() |> DateTime.to_unix()
-    assert now - ts < 1000
+    assert now > ts
   end
 
   test "cant log when minor levels" do
