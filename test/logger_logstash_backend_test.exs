@@ -26,7 +26,6 @@ defmodule LoggerLogstashBackendTest do
       host: "127.0.0.1",
       port: 10_001,
       level: :info,
-      type: "some_app",
       metadata: [
         some_metadata: "go here"
       ]
@@ -45,7 +44,6 @@ defmodule LoggerLogstashBackendTest do
     Logger.info("hello world", key1: "field1")
     json = get_log()
     {:ok, data} = Jason.decode(json)
-    assert data["type"] === "some_app"
     assert data["message"] === "hello world"
 
     expected = %{
@@ -54,7 +52,7 @@ defmodule LoggerLogstashBackendTest do
       "module" => "Elixir.LoggerLogstashBackendTest",
       "pid" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 45,
+      "line" => 44,
       "key1" => "field1"
     }
 
@@ -71,7 +69,6 @@ defmodule LoggerLogstashBackendTest do
     Logger.info("pid", pid_key: self())
     json = get_log()
     {:ok, data} = Jason.decode(json)
-    assert data["type"] === "some_app"
     assert data["message"] === "pid"
 
     expected = %{
@@ -81,7 +78,7 @@ defmodule LoggerLogstashBackendTest do
       "pid" => inspect(self()),
       "pid_key" => inspect(self()),
       "some_metadata" => "go here",
-      "line" => 71
+      "line" => 69
     }
 
     assert data["line"] == expected["line"]

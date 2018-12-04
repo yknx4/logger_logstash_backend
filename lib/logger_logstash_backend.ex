@@ -65,7 +65,7 @@ defmodule LoggerLogstashBackend do
          msg,
          ts,
          md,
-         %{type: type, metadata: metadata, timezone: timezone, json_encoder: json_encoder} = state
+         %{metadata: metadata, timezone: timezone, json_encoder: json_encoder} = state
        ) do
     fields =
       md
@@ -92,7 +92,6 @@ defmodule LoggerLogstashBackend do
     message =
       Map.merge(
         %{
-          type: type,
           "@timestamp": DateTime.to_iso8601(datetime),
           message: to_string(msg)
         },
@@ -149,7 +148,6 @@ defmodule LoggerLogstashBackend do
 
     level = Keyword.get(opts, :level, :debug)
     metadata = Keyword.get(opts, :metadata, [])
-    type = Keyword.get(opts, :type, "elixir")
     host = Keyword.get(opts, :host)
     port = Keyword.get(opts, :port)
     timezone = Keyword.get(opts, :timezone, "Etc/UTC")
@@ -166,7 +164,6 @@ defmodule LoggerLogstashBackend do
       host: to_charlist(host),
       port: port,
       level: level,
-      type: type,
       metadata: metadata,
       timezone: timezone,
       json_encoder: json_encoder,
